@@ -1,0 +1,16 @@
+f:
+cd F:\Android\sdk\tools
+call android create uitest-project -n LaunchSettings -t 10 -p f:\test\LaunchSettings
+cd F:\test\LaunchSettings
+del f:\test\LaunchSettings\bin\LaunchSettings.jar
+echo 'ant build'
+call ant build
+echo 'adb shell rm /data/local/tmp/LaunchSettings.jar'
+C:
+cd C:\flash
+adb shell rm /data/local/tmp/o.jar
+adb push f:\test\LaunchSettings\bin\LaunchSettings.jar /data/local/tmp/LaunchSettings.jar
+adb shell mkdir /data/local/tmp/local/
+adb shell mkdir /data/local/tmp/local/tmp/
+adb shell uiautomator runtest /data/local/tmp/LaunchSettings.jar -c com.Runner#MAIN -e applist logout
+pause
